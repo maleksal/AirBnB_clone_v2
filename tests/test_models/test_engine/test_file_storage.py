@@ -107,3 +107,40 @@ class test_fileStorage(unittest.TestCase):
         from models.engine.file_storage import FileStorage
         print(type(storage))
         self.assertEqual(type(storage), FileStorage)
+
+    def test_delete_obj(self):
+        """deletes obj from storage
+        """
+        from models.engine.file_storage import FileStorage
+        from models.state import State
+        from models.user import User
+
+        fs = FileStorage()
+        before_new = len(fs.all(State))
+        # create new obj State
+        new_state = State()
+        new_state.name = "California"
+        fs.new(new_state)
+        fs.save()
+        # delete obj
+        fs.delete(new_state)
+        after_delete = len(fs.all(State))
+
+        self.assertEqual(after_delete, before_new)
+
+    def test_all_method_by_state(self):
+        """ test all method new implementation
+        """
+        # create new obj State
+        new_state = State()
+        new_state.name = "California"
+        fs.new(new_state)
+        fs.save()
+        # create new obj User
+        new_state = User()
+        new_state.name = "California"
+        fs.new(new_state)
+        fs.save()
+
+        for v in fs.all(State).values():
+            self.assertTrue(isinstance(k, State))
