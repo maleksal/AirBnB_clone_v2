@@ -10,16 +10,35 @@ from console import HBNBCommand
 
 class TestConsole(unittest.TestCase):
     """Test console"""
+    @classmethod
+    def setUpClass(cls):
+        """ """
+        try:
+            os.rename("file.json", "tmp")
+        except IOError:
+            pass
+        cls.HBNB = HBNBCommand()
+
+    @classmethod
+    def tearDownClass(cls):
+        """ """
+        try:
+            os.rename("tmp", "file.json")
+        except IOError:
+            pass
+        del cls.HBNB
+        if type(models.storage) == DBStorage:
+            models.storage._DBStorage__session.close()
 
     def setUp(self):
-        """SetUp"""
-        pass
+        """ """
+        FileStorage._FileStorage__objects = {}
 
     def tearDown(self):
-        """TearDown"""
+        """ """
         try:
-            os.remove('file.json')
-        except:
+            os.remove("file.json")
+        except IOError:
             pass
 
     def test_pep8(self):
