@@ -141,7 +141,10 @@ class HBNBCommand(cmd.Cmd):
                 value = value.replace("_", " ")
             # Check for floating point
             if '.' in value:
-                value = float(value)
+                try:
+                    value = float(value)
+                except Exception:
+                    pass
             else:
                 try:
                     value = int(value)
