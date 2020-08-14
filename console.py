@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """ Console Module """
+import re
 import cmd
 import sys
 from models.base_model import BaseModel
@@ -118,13 +119,38 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+
+        # setup essential valiables
+        args = args.split(" ")
+        class_name = args[0]
+
+        if class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
-        storage.save()
+
+        # create new instance
+        new_instance = HBNBCommand.classes[class_name]()
+
+        for key_value in args[1:]:
+            attr = key_value.split("=")[0]
+            value = key_value.split("=")[1]
+
+            if re.match('^\"(.*)\"$', value):
+                value = value.strip('\"')
+            if '_' in value:
+                value = value.replace("_", " ")
+            # Check for floating point
+            if '.' in value:
+                value = float(value)
+            else:
+                try:
+                    value = int(value)
+                except Exception:
+                    pass
+            setattr(new_instance, attr, value)
+        # save everything
         print(new_instance.id)
-        storage.save()
+        new_instance.save()
 
     def help_create(self):
         """ Help information for the create method """
@@ -202,17 +228,16 @@ class HBNBCommand(cmd.Cmd):
         print_list = []
 
         if args:
-            args = args.split(' ')[0]  # remove possible trailing args
+            args = args.split(' ')[0]   # remove possible trailing args
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all(args).items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all().items():
                 print_list.append(str(v))
-
         print(print_list)
 
     def help_all(self):
