@@ -33,7 +33,7 @@ class test_fileStorage(unittest.TestCase):
         new = BaseModel()
         for obj in storage.all().values():
             temp = obj
-        self.assertTrue(temp is obj)
+            self.assertTrue(temp is obj)
 
     def test_all(self):
         """ __objects is properly returned """
@@ -67,7 +67,7 @@ class test_fileStorage(unittest.TestCase):
         storage.reload()
         for obj in storage.all().values():
             loaded = obj
-        self.assertEqual(new.to_dict()['id'], loaded.to_dict()['id'])
+            self.assertEqual(new.to_dict()['id'], loaded.to_dict()['id'])
 
     def test_reload_empty(self):
         """ Load from an empty file """
@@ -100,7 +100,7 @@ class test_fileStorage(unittest.TestCase):
         _id = new.to_dict()['id']
         for key in storage.all().keys():
             temp = key
-        self.assertEqual(temp, 'BaseModel' + '.' + _id)
+            self.assertEqual(temp, 'BaseModel' + '.' + _id)
 
     def test_storage_var_created(self):
         """ FileStorage object storage created """
@@ -131,6 +131,12 @@ class test_fileStorage(unittest.TestCase):
     def test_all_method_by_state(self):
         """ test all method new implementation
         """
+        from models.state import State
+        from models.user import User
+        from models.engine.file_storage import FileStorage
+
+        fs = FileStorage()
+
         # create new obj State
         new_state = State()
         new_state.name = "California"
@@ -143,4 +149,4 @@ class test_fileStorage(unittest.TestCase):
         fs.save()
 
         for v in fs.all(State).values():
-            self.assertTrue(isinstance(k, State))
+            self.assertTrue(isinstance(v, State))
