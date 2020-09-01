@@ -27,7 +27,7 @@ def hbnb_c_route(text):
 
 
 @app.route('/python/<text>', strict_slashes=False)
-def hbnb_python_route(text):
+def hbnb_python_route(text="is cool"):
     """Display C followed by text"""
     return 'Python {}'.format(text.replace('_', ' '))
 
