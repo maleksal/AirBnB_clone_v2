@@ -36,7 +36,7 @@ def hbnb_python_route(text="is cool"):
 @app.route('/number/<int:num>', strict_slashes=False)
 def hbnb_number_route(num):
     """Display C followed by text"""
-    return '{} is a number'.format(n)
+    return '{} is a number'.format(num)
 
 if __name__ == '__main__':
     environ['FLASK_APP'] = __file__
