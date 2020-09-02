@@ -60,11 +60,11 @@ class DBStorage:
         models = [State, City, Place, Amenity, Review, User]
 
         if cls:
+            cls = cls.__name__
             append_object(queried_data, self.__session.query(eval(cls)).all())
         else:
             for model in models:
                 append_object(queried_data, self.__session.query(eval(model)))
-        print(queried_data)
         return queried_data
 
     def new(self, obj):
