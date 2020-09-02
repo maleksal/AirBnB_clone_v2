@@ -64,3 +64,7 @@ class FileStorage:
             # check if object in storage dictionary
             if object_key in FileStorage.__objects.keys():
                 del FileStorage.__objects[object_key]
+
+    def close(self):
+        """ call reload method """
+        self.reload()
