@@ -6,11 +6,11 @@ from os import environ
 
 app = Flask(__name__)
 
+
 @app.teardown_appcontext
 def teardown_session(session):
     """ Remove current session """
     storage.close()
-
 
 
 @app.route('/states_list', strict_slashes=False)
