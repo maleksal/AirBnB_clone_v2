@@ -60,8 +60,8 @@ class DBStorage:
         models = [State, City, Place, Amenity, Review, User]
 
         if cls:
-            cls = cls.__name__
-            append_object(queried_data, self.__session.query(eval(cls)).all())
+            cls = eval(cls) if type(cls) == str else cls
+            append_object(queried_data, self.__session.query(cls).all())
         else:
             for model in models:
                 append_object(queried_data, self.__session.query(eval(model)))
