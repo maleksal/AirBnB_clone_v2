@@ -4,7 +4,7 @@
         <TITLE>HBNB</TITLE>
     </HEAD>
     <BODY>
-
+        {% if states %}
         <H1>State: {{desired_state.name}}</H1>
         <H3>Cities:</H3>
         <UL>
@@ -14,5 +14,7 @@
             
             {% endfor %}
         </UL>
-
+        {% else %}
+        <h1>Not found!</h1>
+        {% endif %}
     </BODY>
